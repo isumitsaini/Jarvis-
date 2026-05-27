@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JARVIS CP — Assistant</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+
+  <div id="loader">
+    <div class="loader-ring"></div>
+    <div class="loader-ring loader-ring--2"></div>
+    <div class="loader-ring loader-ring--3"></div>
+    <div class="loader-hex">
+      <svg viewBox="0 0 80 80" fill="none">
+        <polygon points="40,4 74,22 74,58 40,76 6,58 6,22" stroke="#00d4ff" stroke-width="1.5" fill="none"/>
+        <text x="40" y="48" text-anchor="middle" font-family="Orbitron" font-size="14" fill="#00d4ff">J</text>
+      </svg>
+    </div>
+    <p class="loader-text">ACTIVATING JARVIS <span class="loader-dots"></span></p>
+    <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  </div>
+
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <nav id="navbar">
+    <div class="nav-logo">
+      <svg class="nav-hex" viewBox="0 0 32 32"><polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="#00d4ff" stroke-width="1.5"/></svg>
+      <span>J·A·R·V·I·S</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="graphs.html">Graphs</a></li>
+      <li><a href="insights.html">AI Insights</a></li>
+      <li><a href="assistant.html" style="color:var(--clr-blue)">Assistant</a></li>
+    </ul>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      <span class="status-text">ONLINE</span>
+    </div>
+  </nav>
+
+  <div class="page-wrap" style="padding-bottom:0">
+    <div class="page-hero" style="margin-bottom:32px">
+      <p class="page-eyebrow">[ VOICE INTERFACE ]</p>
+      <h1 class="page-title">JARVIS <span class="accent">Assistant</span></h1>
+      <p class="page-sub">Ask anything about your competitive programming journey. Voice-enabled.</p>
+
+      <!-- Handle setup -->
+      <div class="handle-search" style="margin-top:20px">
+        <input type="text" class="handle-input" id="handle-input" placeholder="Set your CF handle first..." />
+        <button class="fetch-btn" id="set-handle-btn">SET HANDLE</button>
+      </div>
+      <p id="handle-status" style="font-family:var(--font-display);font-size:10px;letter-spacing:2px;color:var(--clr-muted);margin-top:10px;text-align:center"></p>
+    </div>
+
+    <div class="assistant-layout">
+
+      <!-- Left: orb panel -->
+      <div class="orb-panel">
+        <p class="orb-panel-title">JARVIS CORE</p>
+
+        <div class="jarvis-orb-wrap">
+          <div class="jarvis-orb-pulse jarvis-orb-pulse--1"></div>
+          <div class="jarvis-orb-pulse jarvis-orb-pulse--2"></div>
+          <div class="jarvis-orb-pulse jarvis-orb-pulse--3"></div>
+          <div class="jarvis-orb-core" id="orb-core">AI</div>
+        </div>
+
+        <p class="orb-status" id="orb-status">STANDBY</p>
+
+        <!-- Voice toggle -->
+        <div class="voice-toggle">
+          <button class="voice-toggle-btn" id="voice-toggle" title="Toggle voice output">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+          </button>
+          <span class="voice-toggle-label" id="voice-label">VOICE ON</span>
+        </div>
+
+        <!-- Speech rate slider -->
+        <div style="width:100%;text-align:center">
+          <p style="font-family:var(--font-display);font-size:9px;letter-spacing:2px;color:var(--clr-muted);margin-bottom:8px">SPEECH RATE</p>
+          <input type="range" id="speech-rate" min="0.6" max="1.6" step="0.1" value="0.85"
+                 style="width:80%;accent-color:var(--clr-blue)" />
+        </div>
+
+        <!-- Pitch slider -->
+        <div style="width:100%;text-align:center">
+          <p style="font-family:var(--font-display);font-size:9px;letter-spacing:2px;color:var(--clr-muted);margin-bottom:8px">PITCH</p>
+          <input type="range" id="speech-pitch" min="0.5" max="1.2" step="0.05" value="0.75"
+                 style="width:80%;accent-color:var(--clr-blue)" />
+        </div>
+
+        <div style="text-align:center;margin-top:auto">
+          <p style="font-family:var(--font-display);font-size:9px;letter-spacing:2px;color:rgba(0,212,255,0.3)">POWERED BY</p>
+          <p style="font-family:var(--font-display);font-size:11px;letter-spacing:2px;color:var(--clr-blue)">GEMINI AI</p>
+        </div>
+      </div>
+
+      <!-- Right: chat panel -->
+      <div class="chat-panel">
+        <div class="chat-header">
+          <p class="chat-title">JARVIS COMMAND INTERFACE</p>
+          <button class="chat-clear-btn" id="clear-btn">CLEAR</button>
+        </div>
+
+        <!-- Messages -->
+        <div class="chat-messages" id="chat-messages">
+          <!-- Welcome message injected by JS -->
+        </div>
+
+        <!-- Quick-fire chips -->
+        <div class="chat-chips">
+          <span class="chat-chip" data-q="Where am I weak in competitive programming?">Where am I weak?</span>
+          <span class="chat-chip" data-q="What topics should I practice next?">What to practice?</span>
+          <span class="chat-chip" data-q="Give me a personalised contest strategy.">Contest strategy</span>
+          <span class="chat-chip" data-q="How do I improve my rating on Codeforces?">Improve rating</span>
+          <span class="chat-chip" data-q="What's my biggest mistake pattern in submissions?">Submission errors</span>
+        </div>
+
+        <!-- Input row -->
+        <div class="chat-input-row">
+          <button class="chat-mic-btn" id="mic-btn" title="Voice input">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+              <line x1="12" y1="19" x2="12" y2="23"></line>
+              <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+          </button>
+          <input type="text" class="chat-input" id="chat-input"
+                 placeholder="Ask JARVIS anything about your CP journey..." />
+          <button class="chat-send-btn" id="send-btn">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M22 2L11 13" stroke="#000" stroke-width="2"/>
+              <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#000" stroke-width="2"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /.assistant-layout -->
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/assistant.js"></script>
+</body>
+</html>

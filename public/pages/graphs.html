@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JARVIS CP — Graphs</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <div id="loader">
+    <div class="loader-ring"></div>
+    <div class="loader-ring loader-ring--2"></div>
+    <div class="loader-ring loader-ring--3"></div>
+    <div class="loader-hex">
+      <svg viewBox="0 0 80 80" fill="none">
+        <polygon points="40,4 74,22 74,58 40,76 6,58 6,22" stroke="#00d4ff" stroke-width="1.5" fill="none"/>
+      </svg>
+    </div>
+    <p class="loader-text">RENDERING GRAPHS <span class="loader-dots"></span></p>
+    <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  </div>
+
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <nav id="navbar">
+    <div class="nav-logo">
+      <svg class="nav-hex" viewBox="0 0 32 32"><polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="#00d4ff" stroke-width="1.5"/></svg>
+      <span>J·A·R·V·I·S</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="graphs.html" style="color:var(--clr-blue)">Graphs</a></li>
+      <li><a href="insights.html">AI Insights</a></li>
+      <li><a href="assistant.html">Assistant</a></li>
+    </ul>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      <span class="status-text">ONLINE</span>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="page-hero">
+      <p class="page-eyebrow">[ VISUAL INTELLIGENCE ]</p>
+      <h1 class="page-title">Performance <span class="accent">Graphs</span></h1>
+      <p class="page-sub">Interactive charts — hover for details, powered by your CF data.</p>
+
+      <div class="handle-search">
+        <input type="text" class="handle-input" id="handle-input" placeholder="CF Handle (e.g. tourist)" />
+        <button class="fetch-btn" id="fetch-btn">RENDER</button>
+      </div>
+    </div>
+
+    <div id="page-loading" style="display:none">
+      <div class="loading-overlay visible">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">BUILDING CHARTS</p>
+      </div>
+    </div>
+
+    <div id="page-error" class="error-box" style="display:none;margin-top:20px"></div>
+
+    <div class="graphs-grid" id="graphs-grid" style="display:none">
+
+      <!-- Tag Performance: Solved vs Wrong — Horizontal Bar -->
+      <div class="graph-card graph-card--full">
+        <p class="graph-card-title">Tag Performance — Solved vs Wrong Attempts</p>
+        <p class="graph-card-sub">Hover for success & error rates per topic</p>
+        <div class="chart-wrap" style="height:320px">
+          <canvas id="chart-tags"></canvas>
+        </div>
+      </div>
+
+      <!-- Difficulty Distribution: Donut -->
+      <div class="graph-card">
+        <p class="graph-card-title">Difficulty Distribution</p>
+        <p class="graph-card-sub">Easy / Medium / Hard solved problems</p>
+        <div class="chart-wrap" style="position:relative">
+          <canvas id="chart-diff"></canvas>
+          <div class="donut-center" id="donut-center">
+            <span class="donut-center-value" id="donut-total">—</span>
+            <span class="donut-center-label">TOTAL</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monthly Trend: Line -->
+      <div class="graph-card">
+        <p class="graph-card-title">Monthly Solve Trend</p>
+        <p class="graph-card-sub">Problems solved per month (last 12 months)</p>
+        <div class="chart-wrap">
+          <canvas id="chart-trend"></canvas>
+        </div>
+      </div>
+
+      <!-- Error vs Success by tag: Radar -->
+      <div class="graph-card graph-card--full">
+        <p class="graph-card-title">Success Rate Radar — Top 8 Tags</p>
+        <p class="graph-card-sub">Visual overview of accuracy across topics</p>
+        <div class="chart-wrap" style="height:340px">
+          <canvas id="chart-radar"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/graphs.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JARVIS CP — AI Insights</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+  <div id="loader">
+    <div class="loader-ring"></div>
+    <div class="loader-ring loader-ring--2"></div>
+    <div class="loader-ring loader-ring--3"></div>
+    <div class="loader-hex">
+      <svg viewBox="0 0 80 80" fill="none">
+        <polygon points="40,4 74,22 74,58 40,76 6,58 6,22" stroke="#00d4ff" stroke-width="1.5" fill="none"/>
+        <text x="40" y="47" text-anchor="middle" font-family="Orbitron" font-size="14" fill="#00d4ff">AI</text>
+      </svg>
+    </div>
+    <p class="loader-text">AWAKENING AI <span class="loader-dots"></span></p>
+    <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  </div>
+
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <nav id="navbar">
+    <div class="nav-logo">
+      <svg class="nav-hex" viewBox="0 0 32 32"><polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="#00d4ff" stroke-width="1.5"/></svg>
+      <span>J·A·R·V·I·S</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="graphs.html">Graphs</a></li>
+      <li><a href="insights.html" style="color:var(--clr-blue)">AI Insights</a></li>
+      <li><a href="assistant.html">Assistant</a></li>
+    </ul>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      <span class="status-text">ONLINE</span>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="page-hero">
+      <p class="page-eyebrow">[ GEMINI NEURAL ENGINE ]</p>
+      <h1 class="page-title">AI <span class="accent">Insights</span></h1>
+      <p class="page-sub">Powered by Google Gemini — personalised analysis of your competitive programming profile.</p>
+      <div class="handle-search">
+        <input type="text" class="handle-input" id="handle-input" placeholder="CF Handle (e.g. tourist)" />
+        <button class="fetch-btn" id="fetch-btn">ANALYSE WITH AI</button>
+      </div>
+    </div>
+
+    <div id="page-loading" style="display:none">
+      <div class="loading-overlay visible">
+        <div class="loading-spinner"></div>
+        <p class="loading-text" id="loading-text">FETCHING YOUR DATA</p>
+        <div class="ai-thinking" id="ai-thinking" style="display:none">
+          <div class="ai-thinking-dot"></div>
+          <div class="ai-thinking-dot"></div>
+          <div class="ai-thinking-dot"></div>
+        </div>
+      </div>
+    </div>
+    <div id="page-error" class="error-box" style="display:none;margin-top:20px"></div>
+
+    <div class="ai-page-layout" id="insights-grid" style="display:none">
+      <div class="insight-card" id="card-strengths">
+        <div class="insight-card-header">
+          <div class="insight-card-icon insight-card-icon--green">💪</div>
+          <p class="insight-card-title">Strengths</p>
+        </div>
+        <ul class="insight-list insight-list--green" id="list-strengths"></ul>
+      </div>
+      <div class="insight-card" id="card-weaknesses">
+        <div class="insight-card-header">
+          <div class="insight-card-icon insight-card-icon--red">⚠️</div>
+          <p class="insight-card-title">Weaknesses</p>
+        </div>
+        <ul class="insight-list insight-list--red" id="list-weaknesses"></ul>
+      </div>
+      <div class="insight-card insight-card--full" id="card-roadmap">
+        <div class="insight-card-header">
+          <div class="insight-card-icon insight-card-icon--blue">🗺️</div>
+          <p class="insight-card-title">Improvement Roadmap</p>
+        </div>
+        <ol class="roadmap-list" id="list-roadmap"></ol>
+      </div>
+      <div class="insight-card insight-card--full" id="card-suggestions">
+        <div class="insight-card-header">
+          <div class="insight-card-icon insight-card-icon--purple">🎯</div>
+          <p class="insight-card-title">Practice Suggestions</p>
+        </div>
+        <ul class="insight-list insight-list--purple" id="list-suggestions"></ul>
+      </div>
+    </div>
+
+    <div class="regen-row" id="regen-row" style="display:none">
+      <button class="regen-btn" id="regen-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2">
+          <path d="M23 4v6h-6M1 20v-6h6"/>
+          <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+        </svg>
+        REGENERATE INSIGHTS
+      </button>
+      <button class="regen-btn" id="goto-assistant-btn" style="border-color:rgba(162,89,255,0.4);color:var(--clr-purple)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#a259ff" stroke-width="2">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+        ASK JARVIS
+      </button>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/insights.js"></script>
+</body>
+</html>

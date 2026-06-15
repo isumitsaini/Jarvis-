@@ -32,10 +32,20 @@ router.get('/:handle', async (req, res) => {
     console.log(`[CF] Fetching data for: ${handle}`);
 
     // Parallel fetch: user info + submissions
-    const [infoRes, subsRes] = await Promise.all([
-      axios.get(`${CF_BASE}/user.info?handles=${handle}`, { timeout: 8000 }),
-      axios.get(`${CF_BASE}/user.status?handle=${handle}&from=1&count=2000`, { timeout: 15000 })
-    ]);
+   const [infoRes, subsRes] = await Promise.all([
+  axios.get(`${CF_BASE}/user.info?handles=${handle}`, {
+    timeout: 8000,
+    headers: {
+      'User-Agent': 'Mozilla/5.0'
+    }
+  }),
+  axios.get(`${CF_BASE}/user.status?handle=${handle}&from=1&count=2000`, {
+    timeout: 15000,
+    headers: {
+      'User-Agent': 'Mozilla/5.0'
+    }
+  })
+]);
 
     if (infoRes.data.status !== 'OK') {
       return res.status(404).json({ error: 'User not found on Codeforces' });

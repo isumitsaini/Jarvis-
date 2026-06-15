@@ -45,17 +45,8 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error', message: err.message });
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    console.log(`\n  ██╗ █████╗ ██████╗ ██╗   ██╗██╗███████╗`);
-    console.log(`  ██║██╔══██╗██╔══██╗██║   ██║██║██╔════╝`);
-    console.log(`  ██║███████║██████╔╝██║   ██║██║███████╗`);
-    console.log(`  ██║██╔══██║██╔══██╗╚██╗ ██╔╝██║╚════██║`);
-    console.log(`  ██║██║  ██║██║  ██║ ╚████╔╝ ██║███████║`);
-    console.log(`  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚═╝╚══════╝\n`);
-    console.log(`  CP Dashboard running on http://localhost:${PORT}`);
-    console.log(`  Environment: ${process.env.NODE_ENV || 'development'}\n`);
-  });
-}
+app.listen(PORT, () => {
+  console.log(`CP Dashboard running on http://localhost:${PORT}`);
+});
 
 module.exports = app;

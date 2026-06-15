@@ -13,9 +13,26 @@ const API = (() => {
       headers: { 'Content-Type': 'application/json' },
       ...options
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
-    return data;
+    const text = await res.text();
+
+let data;
+try {
+  data = JSON.parse(text);
+} catch (e) {
+  console.error('Non-JSON response:', text);
+
+  throw new Error(
+    text.startsWith('The page')
+      ? 'Backend route not found or server is not running.'
+      : 'Server returned invalid JSON.'
+  );
+}
+
+if (!res.ok) {
+  throw new Error(data.error || `HTTP ${res.status}`);
+}
+
+return data;
   }
 
   return {

@@ -7,9 +7,16 @@ const express = require('express');
 const cors    = require('cors');
 const path    = require('path');
 
+console.log('Loading codeforces route...');
 const codeforcesRouter = require('./routes/codeforces');
-const analyticsRouter  = require('./routes/analytics');
-const aiRouter         = require('./routes/ai');
+
+console.log('Loading analytics route...');
+const analyticsRouter = require('./routes/analytics');
+
+console.log('Loading ai route...');
+const aiRouter = require('./routes/ai');
+
+console.log('All routes loaded.');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
